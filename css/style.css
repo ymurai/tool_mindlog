@@ -1,5 +1,6 @@
 :root {
-	--width-all: 380px;
+	/* --width-all: 380px; */
+	--width-all: 100%;
 	--height-header: 24px;
 	--height-footer: 24px;
 	--height-textarea: 8rem;

@@ -3,6 +3,8 @@
 define("DIR_ROOT", "/home/murai/www/mindlog/");
 // ログファイルの場所
 define("DIR_LOGS", DIR_ROOT . "logs/");
+// 一時保存ファイルの名前
+define("TMP_LOG", "tmp.log");
 
 class Files {
 
@@ -40,9 +42,37 @@ class Files {
     $text = str_replace(array("\r\n","\r", "\n"), PHP_EOL, $text);
     $text .= PHP_EOL;
 
-    // ファイルに書き込む：先頭から・ファイルが存在しない場合は作成
+    // ファイルに書き込む：末尾から・ファイルが存在しない場合は作成
     $fp = fopen(DIR_LOGS . $filename, 'a+');
     fwrite($fp, $timestamp . $text); // エスケープしなきゃ
+    fclose($fp);
+
+    return true;
+    // TODO:try-catchを仕込む
+
+  }
+
+  // 一時保存
+  public function save_tmp($text) {
+
+    // 書き込みテキストを作成
+    $text = str_replace(array("\r\n","\r", "\n"), PHP_EOL, $text);
+
+    // ファイルに書き込む：初期化・ファイルが存在しない場合は作成
+    $fp = fopen(DIR_LOGS . TMP_LOG, 'w+');
+    fwrite($fp, $text); // エスケープしなきゃ
+    fclose($fp);
+
+    return true;
+    // TODO:try-catchを仕込む
+
+  }
+
+  // 一時保存ファイルをクリアにする
+  public function clear_tmp() {
+
+    // ファイルに書き込む：初期化・ファイルが存在しない場合は作成
+    $fp = fopen(DIR_LOGS . TMP_LOG, 'w+');
     fclose($fp);
 
     return true;
